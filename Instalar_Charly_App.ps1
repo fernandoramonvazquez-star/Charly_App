@@ -1,4 +1,4 @@
-# Instalar_Charly_App.ps1 - Instalador robusto para PCs limpias
+﻿# Instalar_Charly_App.ps1 - Instalador integral y autónomo de Charly App v4.0
 $Host.UI.RawUI.WindowTitle = "Instalador de Charly App v4.0"
 $ErrorActionPreference = "Continue"
 
@@ -8,11 +8,14 @@ Set-Location $appDir
 
 Write-Host "========================================================================" -ForegroundColor Cyan
 Write-Host "                 INSTALADOR DE CHARLY APP v4.0" -ForegroundColor Cyan
+Write-Host "       Asistente computacional para psicometría reproducible en R" -ForegroundColor Gray
 Write-Host "========================================================================" -ForegroundColor Cyan
 Write-Host ""
 
+# ---------------------------------------------------------------------------
+# 1. LOCALIZACIÓN Y AUTO-INSTALACIÓN DE PYTHON
+# ---------------------------------------------------------------------------
 function Find-PythonExecutable {
-    # 1. Probar 'python' en PATH actual si funciona de verdad (excluyendo el alias vacio de WindowsApps)
     try {
         $testPath = & python -c "import sys; print(sys.executable)" 2>$null
         if ($LASTEXITCODE -eq 0 -and $testPath -and -not ($testPath -like "*WindowsApps*")) {
@@ -20,7 +23,6 @@ function Find-PythonExecutable {
         }
     } catch {}
 
-    # 2. Rutas conocidas estandar de Python en Windows
     $candidates = @(
         "$env:LOCALAPPDATA\Programs\Python\Python313\python.exe",
         "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe",
@@ -47,7 +49,6 @@ function Find-PythonExecutable {
         }
     }
 
-    # 3. Buscar en el registro de Windows
     $regRoots = @("HKCU:\Software\Python\PythonCore", "HKLM:\Software\Python\PythonCore")
     foreach ($r in $regRoots) {
         if (Test-Path $r) {
@@ -75,11 +76,11 @@ $pyExe = Find-PythonExecutable
 if (-not $pyExe) {
     Write-Host ""
     Write-Host "========================================================================" -ForegroundColor Yellow
-    Write-Host " [AVISO] No se detecto una instalacion funcional de Python 3.10+." -ForegroundColor Yellow
-    Write-Host " Charly App requiere Python para su funcionamiento." -ForegroundColor Yellow
+    Write-Host " [AVISO] No se detectó una instalación funcional de Python 3.10+." -ForegroundColor Yellow
+    Write-Host " Charly App requiere Python para su interfaz y lógica central." -ForegroundColor Yellow
     Write-Host "========================================================================" -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "Deseas descargar e instalar Python 3.12 automaticamente ahora? (S/n): " -NoNewline -ForegroundColor Cyan
+    Write-Host "¿Deseas descargar e instalar Python 3.12 automáticamente ahora? (S/n): " -NoNewline -ForegroundColor Cyan
     $ans = Read-Host
     if ($ans -eq "" -or $ans -match "^[sSyY]") {
         Write-Host ""
@@ -92,9 +93,9 @@ if (-not $pyExe) {
             Write-Host "Instalando Python en segundo plano (agregando al PATH)..." -ForegroundColor Gray
             $p = Start-Process -FilePath $installer -ArgumentList "/passive", "InstallAllUsers=0", "PrependPath=1", "Include_test=0" -Wait -PassThru
             Remove-Item $installer -Force -ErrorAction SilentlyContinue
-            Write-Host "Instalacion de Python finalizada." -ForegroundColor Green
+            Write-Host "Instalación de Python finalizada." -ForegroundColor Green
         } catch {
-            Write-Host "Fallo la descarga automatica: $_" -ForegroundColor Red
+            Write-Host "Fallo la descarga automática de Python: $_" -ForegroundColor Red
         }
         $pyExe = Find-PythonExecutable
     }
@@ -104,8 +105,7 @@ if (-not $pyExe) {
     Write-Host ""
     Write-Host "========================================================================" -ForegroundColor Red
     Write-Host " ERROR: No se pudo localizar Python.exe." -ForegroundColor Red
-    Write-Host " Por favor instala Python manualmente desde:" -ForegroundColor Yellow
-    Write-Host " https://www.python.org/downloads/" -ForegroundColor White
+    Write-Host " Por favor instala Python manualmente desde: https://www.python.org/downloads/" -ForegroundColor Yellow
     Write-Host " IMPORTANTE: Marca la casilla 'Add python.exe to PATH' en el instalador." -ForegroundColor Yellow
     Write-Host "========================================================================" -ForegroundColor Red
     Write-Host ""
@@ -116,12 +116,98 @@ if (-not $pyExe) {
 $pyDir = Split-Path $pyExe -Parent
 $pyScripts = Join-Path $pyDir "Scripts"
 $env:PATH = "$pyDir;$pyScripts;$env:PATH"
-
 Write-Host "Python detectado en: $pyExe" -ForegroundColor Green
+
+# ---------------------------------------------------------------------------
+# 2. LOCALIZACIÓN Y AUTO-INSTALACIÓN DE R (MOTOR ESTADÍSTICO)
+# ---------------------------------------------------------------------------
+function Find-RExecutable {
+    try {
+        $cmd = (Get-Command Rscript.exe -ErrorAction SilentlyContinue).Source
+        if ($cmd -and (Test-Path $cmd)) { return $cmd }
+    } catch {}
+
+    $candidates = @(
+        "C:\Program Files\R\R-*\bin\Rscript.exe",
+        "C:\Program Files (x86)\R\R-*\bin\Rscript.exe",
+        "$env:LOCALAPPDATA\Programs\R\R-*\bin\Rscript.exe",
+        "C:\R\bin\Rscript.exe"
+    )
+    foreach ($pat in $candidates) {
+        $found = Get-Item $pat -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1
+        if ($found -and (Test-Path $found.FullName)) {
+            return $found.FullName
+        }
+    }
+
+    $rReg = @("HKLM:\Software\R-Core\R", "HKCU:\Software\R-Core\R", "HKLM:\Software\R-Core\R64", "HKCU:\Software\R-Core\R64")
+    foreach ($reg in $rReg) {
+        if (Test-Path $reg) {
+            $p = (Get-ItemProperty $reg -ErrorAction SilentlyContinue).InstallPath
+            if ($p) {
+                $exe = Join-Path $p "bin\Rscript.exe"
+                if (Test-Path $exe) { return $exe }
+            }
+        }
+    }
+
+    return $null
+}
+
+Write-Host "Verificando entorno de R..." -ForegroundColor Gray
+$rExe = Find-RExecutable
+
+if (-not $rExe) {
+    Write-Host ""
+    Write-Host "========================================================================" -ForegroundColor Yellow
+    Write-Host " [AVISO] No se detectó R instalado en tu computadora." -ForegroundColor Yellow
+    Write-Host " Charly App utiliza R como motor estadístico para calcular los modelos." -ForegroundColor Yellow
+    Write-Host "========================================================================" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "¿Deseas descargar e instalar R automáticamente ahora desde CRAN? (S/n): " -NoNewline -ForegroundColor Cyan
+    $rAns = Read-Host
+    if ($rAns -eq "" -or $rAns -match "^[sSyY]") {
+        Write-Host ""
+        Write-Host "Localizando última versión oficial de R para Windows en CRAN..." -ForegroundColor Gray
+        try {
+            $cranUrl = "https://cloud.r-project.org/bin/windows/base/"
+            $html = (Invoke-WebRequest -Uri $cranUrl -UseBasicParsing).Content
+            $rFile = "R-4.6.2-win.exe"
+            if ($html -match 'href="(R-[0-9\.]+-win\.exe)"') {
+                $rFile = $matches[1]
+            }
+            $rDownloadUrl = "$cranUrl$rFile"
+            Write-Host "Descargando $rFile (aprox. 80 MB)..." -ForegroundColor Gray
+            $rInstaller = Join-Path $env:TEMP $rFile
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+            Invoke-WebRequest -Uri $rDownloadUrl -OutFile $rInstaller -UseBasicParsing
+            
+            Write-Host "Instalando R para Windows en segundo plano..." -ForegroundColor Gray
+            $p = Start-Process -FilePath $rInstaller -ArgumentList "/SILENT", "/SUPPRESSMSGBOXES" -Wait -PassThru
+            Remove-Item $rInstaller -Force -ErrorAction SilentlyContinue
+            Write-Host "Instalación de R finalizada con éxito." -ForegroundColor Green
+        } catch {
+            Write-Host "No se pudo descargar automáticamente R: $_" -ForegroundColor Red
+            Write-Host "Puedes descargarlo manualmente desde: https://cloud.r-project.org/bin/windows/base/" -ForegroundColor Yellow
+        }
+        $rExe = Find-RExecutable
+    }
+}
+
+if ($rExe) {
+    Write-Host "R detectado en: $rExe" -ForegroundColor Green
+    $rDir = Split-Path $rExe -Parent
+    $env:PATH = "$rDir;$env:PATH"
+} else {
+    Write-Host "AVISO: R no fue instalado en este paso. Podrás instalarlo más adelante desde cloud.r-project.org" -ForegroundColor Yellow
+}
+
 Write-Host ""
 
-# [1/3] Instalar dependencias
-Write-Host "[1/3] Instalando dependencias necesarias (PySide6, python-docx)..." -ForegroundColor Yellow
+# ---------------------------------------------------------------------------
+# 3. INSTALACIÓN DE DEPENDENCIAS DE PYTHON (PySide6, python-docx)
+# ---------------------------------------------------------------------------
+Write-Host "[1/3] Instalando librerías de Python (PySide6, python-docx)..." -ForegroundColor Yellow
 Write-Host "Descargando paquetes (aprox. 150 MB). Puede demorar 1-2 minutos." -ForegroundColor Gray
 Write-Host "Por favor espera a que finalice..." -ForegroundColor Gray
 Write-Host ""
@@ -136,15 +222,31 @@ if (Test-Path "$appDir\requirements.txt") {
 if ($LASTEXITCODE -ne 0) {
     Write-Host ""
     Write-Host "========================================================================" -ForegroundColor Red
-    Write-Host " AVISO: Ocurrio un inconveniente al instalar las dependencias con pip." -ForegroundColor Red
-    Write-Host " Comprueba tu conexion a internet e intenta nuevamente." -ForegroundColor Yellow
+    Write-Host " AVISO: Ocurrió un inconveniente al instalar las dependencias con pip." -ForegroundColor Red
+    Write-Host " Comprueba tu conexión a internet e intenta nuevamente." -ForegroundColor Yellow
     Write-Host "========================================================================" -ForegroundColor Red
     Write-Host ""
     Read-Host "Presione Enter para salir"
     exit 1
 }
 
-# [2/3] Crear acceso directo en Escritorio
+# ---------------------------------------------------------------------------
+# 4. INSTALACIÓN OPCIONAL DE PAQUETES DE R (lavaan, psych, semTools, etc.)
+# ---------------------------------------------------------------------------
+if ($rExe) {
+    Write-Host ""
+    Write-Host "¿Deseas instalar ahora los paquetes estadísticos de R (lavaan, psych, MASS, semTools)? (S/n): " -NoNewline -ForegroundColor Cyan
+    $pkgAns = Read-Host
+    if ($pkgAns -eq "" -or $pkgAns -match "^[sSyY]") {
+        Write-Host "Instalando paquetes de R desde CRAN (esto puede demorar unos minutos)..." -ForegroundColor Yellow
+        & $rExe -e "pkgs <- c('lavaan', 'psych', 'MASS', 'semTools', 'readxl', 'writexl', 'openxlsx', 'ggplot2', 'GPArotation'); to_install <- pkgs[!pkgs %in% installed.packages()[,'Package']]; if(length(to_install)>0) install.packages(to_install, repos='https://cloud.r-project.org')"
+        Write-Host "Paquetes de R listos." -ForegroundColor Green
+    }
+}
+
+# ---------------------------------------------------------------------------
+# 5. CREACIÓN DE ACCESO DIRECTO EN EL ESCRITORIO
+# ---------------------------------------------------------------------------
 Write-Host ""
 Write-Host "[2/3] Creando acceso directo 'Charly App' en el Escritorio..." -ForegroundColor Yellow
 try {
@@ -165,12 +267,14 @@ try {
     Write-Host "No se pudo crear el acceso directo: $_" -ForegroundColor Yellow
 }
 
-# [3/3] Probar inicio
+# ---------------------------------------------------------------------------
+# 6. VERIFICACIÓN E INICIO
+# ---------------------------------------------------------------------------
 Write-Host ""
 Write-Host "[3/3] Verificando inicio de Charly App..." -ForegroundColor Yellow
 $testLoad = & $pyExe -c "import PySide6, docx; print('OK')" 2>&1
 if ($testLoad -notmatch "OK") {
-    Write-Host "ERROR al validar las librerias:" -ForegroundColor Red
+    Write-Host "ERROR al validar las librerías:" -ForegroundColor Red
     Write-Host $testLoad -ForegroundColor Red
     Write-Host ""
     Read-Host "Presione Enter para salir"
@@ -179,7 +283,7 @@ if ($testLoad -notmatch "OK") {
 
 Write-Host ""
 Write-Host "========================================================================" -ForegroundColor Green
-Write-Host "  INSTALACION FINALIZADA CON EXITO! Iniciando Charly App..." -ForegroundColor Green
+Write-Host "  ¡INSTALACIÓN FINALIZADA CON ÉXITO! Iniciando Charly App..." -ForegroundColor Green
 Write-Host "========================================================================" -ForegroundColor Green
 Write-Host ""
 
