@@ -34,26 +34,29 @@ Antes de ejecutar Charly App, verifique contar con las siguientes herramientas i
 
 ---
 
-## Instalación y Puesta en Marcha (3 Pasos)
+## Instalación y Puesta en Marcha
 
-### Paso 1: Descargar el repositorio
-Haga clic en el botón verde superior **`<> Code`** y seleccione **`Download ZIP`**. Descomprima el archivo descargado en una carpeta de su computadora (por ejemplo, en su Escritorio o Documentos).
+Dispone de dos formas sencillas de instalar Charly App en su computadora:
 
-### Paso 2: Ejecutar el instalador
-En la carpeta descomprimida `Charly_App`, haga doble clic sobre el archivo:
+### Método 1: Instalador Ejecutable Oficial (Recomendado para alumnos)
+Para una experiencia directa similar a cualquier programa comercial de Windows:
+1. Ingrese a la sección de **[Releases Oficiales](https://github.com/fernandoramonvazquez-star/Charly_App/releases/latest)**.
+2. Descargue el archivo **`Instalador_Charly_App.exe`**.
+3. Haga doble clic sobre el instalador y siga las instrucciones del asistente (*Siguiente > Siguiente > Instalar*). Creará automáticamente el acceso directo en su Escritorio y Menú Inicio y configurará el entorno sin requerir privilegios de administrador.
+
+### Método 2: Versión Portátil / Código Fuente (vía ZIP)
+1. Haga clic en el botón verde superior **`<> Code`** y seleccione **`Download ZIP`**.
+2. Descomprima el archivo descargado en una carpeta de su computadora (por ejemplo, en su Escritorio o Documentos).
+3. Dentro de la carpeta `Charly_App`, haga doble clic sobre:
 ```
 Instalar_Charly_App.bat
 ```
-Este archivo por lotes realizará de forma automática:
-* La comprobación del entorno de Python.
-* La instalación de las bibliotecas de interfaz gráfica (`PySide6` y `python-docx`).
-* La creación de un acceso directo denominado **Charly App** en su Escritorio.
-* El inicio de la aplicación.
+El instalador automatizado comprobará el entorno, resolverá dependencias, creará el acceso directo en su Escritorio e iniciará la aplicación. *(Para usos posteriores, puede hacer doble clic en el acceso directo de su Escritorio o en `Iniciar_Charly_App.bat`).*
 
-*(Para aperturas posteriores, puede utilizar directamente el acceso directo de su Escritorio o hacer doble clic en `Iniciar_Charly_App.bat` dentro de la carpeta).*
+---
 
-### Paso 3: Configurar R y Paquetes
-Al abrir Charly App:
+### Configuración de R y Paquetes Estadísticos
+Al abrir Charly App por primera vez:
 1. En la pestaña de configuración, verifique que la ruta a `Rscript.exe` sea detectada automáticamente.
 2. Si aún no tiene instalados los paquetes estadísticos de R, presione el botón **`[2] Instalar paquetes de R faltantes`**. La aplicación instalará automáticamente las dependencias necesarias (`lavaan`, `psych`, `MASS`, `semTools`, `readxl`, `writexl`, `openxlsx`, `ggplot2`, `GPArotation`, entre otras).
 
