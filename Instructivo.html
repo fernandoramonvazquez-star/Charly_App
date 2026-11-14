@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructivo de Uso y Configuración · Charly App</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --code-bg: #030712;
+      --step-num-bg: #1e293b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      padding: 0 0 60px 0;
+    }
+    .header {
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(11, 15, 25, 0.95) 100%);
+      border-bottom: 1px solid var(--card-border);
+      padding: 44px 24px 32px 24px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--primary);
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .header h1 {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .header p {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 26px 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    }
+    .section-card h2 {
+      font-size: 20px;
+      color: var(--primary);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-card h3 {
+      font-size: 16px;
+      color: #f1f5f9;
+      margin: 18px 0 10px 0;
+    }
+    .section-card p, .section-card li {
+      color: var(--text);
+      font-size: 14.5px;
+      margin-bottom: 10px;
+    }
+    .section-card ul, .section-card ol {
+      padding-left: 22px;
+      margin-bottom: 14px;
+    }
+    .callout {
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 4px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .callout-success {
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 4px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: 4px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    code {
+      background: var(--code-bg);
+      color: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 13.5px;
+      border: 1px solid var(--card-border);
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+    .step-box {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+    .step-num {
+      background: var(--step-num-bg);
+      border: 1px solid var(--card-border);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-content { flex: 1; }
+    .footer {
+      text-align: center;
+      padding-top: 30px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--card-border);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="badge">📘 Guía Metodológica y Técnica</div>
+    <h1>Instructivo de Uso y Configuración</h1>
+    <p>Asistente computacional para la especificación, ejecución y verificación de modelos psicométricos en R con Charly App.</p>
+  </header>
+
+  <main class="container">
+
+    <!-- 1. Introducción -->
+    <article class="section-card">
+      <h2>1. Introducción y Propósito</h2>
+      <p><strong>Charly App</strong> es una herramienta de escritorio orientada a la investigación y la docencia, concebida para asistir en la especificación, ejecución y verificación de modelos psicométricos y estadísticos en lenguaje <strong>R</strong>.</p>
+      <p>El software permite que el usuario redacte su necesidad metodológica en lenguaje natural (por ejemplo: <em>"En Base_A.xlsx, estimá un AFC de primer orden con WLSMV para los factores Operativo, Relacional, Estratégico y Liderazgo, e invertí el reactivo I8"</em>). A partir de allí, el sistema:</p>
+      <ul>
+        <li>Perfila empíricamente las variables de la base de datos seleccionada.</li>
+        <li>Identifica el arquetipo metodológico canónico y consulta de forma interactiva los criterios de estimación e higiene de datos.</li>
+        <li>Genera un script formal en R utilizando librerías validadas (<code>lavaan</code>, <code>psych</code>, <code>MASS</code>, <code>semTools</code>, <code>readxl</code>).</li>
+        <li>Ejecuta el script localmente en el entorno R de su equipo, audita el ajuste del modelo y abre el código fuente en RStudio para garantizar la total reproducibilidad de los resultados.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>¿Qué significa "Ejecución Local y Reproducible"?</strong>
+        <p style="margin-top: 6px;">• <strong>Cómputo 100% local en R:</strong> Todos los cálculos numéricos se resuelven exclusivamente dentro de su propia computadora a través de su instalación local de R.</p>
+        <p>• <strong>Reproducibilidad científica:</strong> A diferencia de los chatbots convencionales que entregan respuestas de texto no auditables, Charly produce un script sintáctico en R (<code>workspace/generated_script.R</code>) que puede ser inspeccionado, verificado y vuelto a correr en RStudio de forma independiente.</p>
+        <p>• <strong>Modalidad Offline vs. Nube:</strong> En el Modo Local (Seru Girán), todo el flujo es 100% offline sin conexión a internet. En el Modo Nube (Google Gemini), la IA interpreta la consigna vía internet pero el procesamiento estadístico y los datos numéricos se ejecutan de manera estrictamente local en su equipo.</p>
+      </div>
+    </article>
+
+    <!-- 2. Instalación -->
+    <article class="section-card">
+      <h2>2. Instalación Inicial Paso a Paso</h2>
+      <p>Si recibió el enlace del repositorio por correo o mensaje de texto, el procedimiento de instalación en Windows requiere tres pasos sencillos:</p>
+      
+      <div class="step-box">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Descargar el repositorio:</strong> En la página de GitHub, haga clic en el botón verde <code>&lt;&gt; Code</code> y seleccione la opción <code>Download ZIP</code>.
+        </div>
+      </div>
+      
+      <div class="step-box">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Descomprimir la carpeta:</strong> Haga clic derecho sobre el archivo ZIP descargado y elija <em>Extraer todo...</em> en una ubicación cómoda (por ejemplo, en su Escritorio o Documentos).
+        </div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Ejecutar el instalador automático:</strong> Abra la carpeta descomprimida <code>Charly_App</code> y haga doble clic en <code>Instalar_Charly_App.bat</code>. El instalador comprobará Python 3.10+, instalará las bibliotecas de interfaz (<code>PySide6</code>, <code>python-docx</code>) y creará el acceso directo en su Escritorio.
+        </div>
+      </div>
+    </article>
+
+    <!-- 3. Configuración R -->
+    <article class="section-card">
+      <h2>3. Configuración de R y Paquetes Estadísticos</h2>
+      <p>Charly App ejecuta análisis estadísticos reales en su equipo mediante el motor de <strong>R</strong>:</p>
+      <ol>
+        <li><strong>Instalar R:</strong> Si aún no tiene R instalado, descárguelo gratuitamente desde el sitio oficial de CRAN: <a href="https://cloud.r-project.org/" target="_blank" style="color:var(--primary);">https://cloud.r-project.org/</a>.</li>
+        <li><strong>Instalar paquetes en 1 clic:</strong> Al abrir Charly App, diríjase a la pestaña <code>⚙️ Configurar R / IA</code> y presione el botón <code>📦 2. Comprobar e Instalar Paquetes de R Automáticamente</code>. Charly instalará de forma desatendida las librerías necesarias (<code>lavaan</code>, <code>psych</code>, <code>MASS</code>, <code>semTools</code>, <code>readxl</code>, <code>writexl</code>, etc.).</li>
+      </ol>
+    </article>
+
+    <!-- 4. Configuración IA -->
+    <article class="section-card">
+      <h2>4. Configuración del Motor de Inteligencia Artificial</h2>
+      
+      <h3>Modalidad A: Vía Nube con Google Gemini (Recomendada y Gratuita)</h3>
+      <ul>
+        <li><strong>Ventajas:</strong> Rápida, no consume recursos del equipo ni requiere tarjeta de video dedicada.</li>
+        <li><strong>Costo:</strong> Gratuita mediante el nivel sin costo de Google AI Studio (no requiere tarjeta de crédito).</li>
+        <li><strong>Obtención de clave:</strong> Ingrese en <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--primary);">aistudio.google.com/app/apikey</a> con su cuenta de Google, cree su API Key y péguela en Charly App. La clave se almacena cifrada localmente mediante la API <strong>DPAPI</strong> de Windows.</li>
+      </ul>
+
+      <h3>Modalidad B: Vía Local Offline con Seru Girán (Privacidad Total)</h3>
+      <ul>
+        <li><strong>Ventajas:</strong> 100% desconectada de internet. Ningún dato sale de su máquina física.</li>
+        <li><strong>Compatibilidad:</strong> Compatible con servidores locales con API estándar de OpenAI: <code>llama-server</code> (puerto <code>8090</code>), <code>Ollama</code> (puerto <code>11434</code>) o <code>LM Studio</code> (puerto <code>1234</code>).</li>
+      </ul>
+    </article>
+
+    <!-- 5. Bases de Datos -->
+    <article class="section-card">
+      <h2>5. Gestión de Bases de Datos: ¿Cómo descargar y usar las bases de prueba?</h2>
+      
+      <div class="callout-success">
+        <strong>¿Cómo accede el estudiante o investigador a las bases de datos?</strong><br>
+        Al descargar el archivo comprimido del repositorio (<code>Download ZIP</code>), <strong>todas las bases de datos ya vienen incluidas</strong> dentro de la subcarpeta:
+        <pre>Charly_App/datasets_ejemplo/</pre>
+        Junto a las bases, se incluye una guía explicativa de variables (archivo <code>LEEME_BASES.txt</code>) que detalla qué mide cada ítem y columna. <strong>No es necesario descargar archivos adicionales ni moverlos de lugar.</strong> Charly App incorpora un buscador automático que rastrea los archivos directamente en esa carpeta.
+      </div>
+
+      <h3>Bases de datos anónimas incluidas:</h3>
+      <ul>
+        <li><strong><code>Base_A.xlsx</code></strong> (Hoja única: <code>RESPUESTAS</code>, N = 591, 30 columnas): Incluye 24 reactivos psicométricos tipo Likert en escala de 1 a 6 (<code>I2</code> a <code>I49</code>, con código <code>7 = No aplica</code> para recodificar como <code>NA</code>), las covariables sociodemográficas (<code>EDAD</code>, <code>GENERO</code> [1=Femenino, 2=Masculino, 3=Otro, 4=Prefiero no contestar], <code>COBERTURA</code>, <code>NIVEL_EDUCATIVO</code>), <code>RECOMENDACION</code> (0 a 10) y <code>SEDE</code>. Utilizada en la mayoría de consignas de AFC, Bifactorial, MIMIC, SEM y Regresiones.</li>
+        <li><strong><code>Base_B.xlsx</code></strong> (Hoja <code>Hoja1</code>, N = 306, 29 columnas): Contiene los mismos 24 reactivos tipo Likert (<code>I2</code> a <code>I49</code>, escala de 1 a 6), las covariables abreviadas (<code>edad</code>, <code>genero</code>, <code>cobert</code>, <code>educa</code>) y <code>Recomen</code> (0 a 10). Utilizada en tareas de replicación empírica, modelos jerárquicos y senderos no recursivos.</li>
+        <li><strong><code>Base_C.xlsx</code></strong> (Hoja <code>Hoja1</code>, N = 148 observaciones válidas): Escala de bienestar con covariables (<code>Edad</code>, <code>Genero</code>, <code>Educacion</code>, <code>pr0pu1</code>), reactivos <code>x1</code> a <code>x12</code> (0 a 4), indicadores binarios (<code>var61</code> a <code>var72</code>) y puntajes continuos (<code>meaning.</code>, <code>peace.</code>, <code>faith.</code>, <code>BE.</code>), utilizada en modelos MIMIC con correlación residual entre ítems específicos (<code>x10 ~~ x11</code>).</li>
+      </ul>
+
+      <h3>¿Dónde busca Charly sus archivos si usa datos propios?</h3>
+      <p>Si desea analizar sus propias bases de datos, basta con colocar su archivo en cualquiera de estas ubicaciones y mencionarlo en la consigna:</p>
+      <ul>
+        <li>La subcarpeta <code>datasets_ejemplo/</code> de Charly App.</li>
+        <li>La carpeta raíz de <code>Charly_App</code>.</li>
+        <li>Su carpeta de <strong>Descargas</strong> (<code>Downloads</code>).</li>
+        <li>Su <strong>Escritorio</strong> (<code>Desktop</code>), tanto local como en OneDrive.</li>
+        <li>Su carpeta de <strong>Documentos</strong> (<code>Documents</code>).</li>
+      </ul>
+    </article>
+
+    <!-- 6. Flujo de Trabajo -->
+    <article class="section-card">
+      <h2>6. Flujo de Trabajo: Cómo Correr su Primer Análisis</h2>
+      <ol>
+        <li><strong>Seleccionar una consigna:</strong> Abra el <strong>Catálogo de Consignas</strong> (archivo <code>Catalogo_Consignas_Charly.html</code> o botón superior <em>📖 Catálogo de Ejemplos</em>) y elija cualquiera de las <strong>47 consignas metodológicas validadas</strong>.</li>
+        <li><strong>Copiar y pegar:</strong> Presione el botón <code>📋 Copiar</code> de la tarjeta elegida, pegue el texto en Charly App y presione <code>Ejecutar Análisis</code>.</li>
+        <li><strong>Ejecución y verificación:</strong> Charly verifica la base de datos, redacta el script en R (<code>workspace/generated_script.R</code>), ejecuta el análisis en su motor local de R y produce el informe en Word (<code>.docx</code>).</li>
+        <li><strong>Inspección en RStudio:</strong> Si tiene RStudio instalado, el script generado (<code>workspace/generated_script.R</code>) se abrirá automáticamente en el <strong>panel superior izquierdo (editor de scripts)</strong>. Para correrlo de forma interactiva, consultar advertencias (<code>warnings()</code>) o revisar la consola de R, presione el botón <strong><code>[Source]</code></strong> (o el atajo <strong><code>Ctrl + Shift + S</code></strong>). También puede auditar o ejecutar el código línea por línea seleccionando las instrucciones deseadas y presionando <strong><code>Ctrl + Enter</code></strong> (útil para ver qué calcula cada renglón paso a paso sin correr todo el programa de golpe).</li>
+      </ol>
+    </article>
+
+    <div class="footer">
+      <p>Charly App · Asistente computacional para análisis psicométrico reproducible en R · Rigor, humildad y transparencia científica.</p>
+    </div>
+
+  </main>
+
+</body>
+</html>

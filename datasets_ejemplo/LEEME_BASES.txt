@@ -1,0 +1,58 @@
+========================================================================
+             BASES DE DATOS DE EJEMPLO · CHARLY APP
+========================================================================
+
+Esta carpeta contiene las bases de datos anónimas necesarias para probar 
+y reproducir las 47 consignas del "Catálogo de Consignas Psicométricas":
+
+1. Base_A.xlsx
+   - Estructura: Hoja única de datos llamada 'RESPUESTAS'
+     (N = 591 observaciones, 30 columnas).
+   - Reactivos psicométricos: 24 ítems en escala Likert ordinal de 1 a 6
+     (código 7 = 'No aplica' presente en I2, I3, I4, I12, I14 e I24 para
+     recodificar como NA según la consigna). Corresponden a los ítems:
+     I2, I3, I4, I7, I8, I9, I11, I12, I14, I17, I18, I20, I30, I33,
+     I37, I22, I23, I24, I38, I40, I43, I47, I48 e I49.
+   - Variables sociodemográficas y globales: EDAD (6 a 99), GENERO (1 =
+     Femenino, 2 = Masculino, 3 = Otro, 4 = Prefiero no contestar),
+     COBERTURA (1 = Plan de Salud, 2 = Obra Social / Prepaga),
+     NIVEL_EDUCATIVO (1 a 6), RECOMENDACION (0 a 10) y SEDE.
+   - Usos principales: Modelos de AFC (primer y segundo orden),
+     Bifactoriales, MIMIC & Invarianza / DIF, SEM / Senderos, ACP, AFE
+     y Regresiones Logísticas / Probit.
+
+2. Base_B.xlsx
+   - Estructura: Hoja única llamada 'Hoja1' (N = 306 observaciones,
+     29 columnas).
+   - Variables: Incluye los mismos 24 reactivos tipo Likert (I2 a I49,
+     escala de 1 a 6, sin códigos 7), las 4 variables sociodemográficas con
+     nombres abreviados en minúscula (edad, genero, cobert, educa) y
+     Recomen (0 a 10).
+   - Usos principales: Modelos de replicación metodológica, AFC de
+     segundo orden, regresiones logísticas y modelos de senderos no
+     recursivos.
+
+3. Base_C.xlsx
+   - Estructura: Hoja única llamada 'Hoja1' (N = 148 observaciones
+     válidas).
+   - Variables: Variables sociodemográficas (Edad, Genero, Educacion),
+     reactivos de bienestar espiritual y subjetivo (x1 a x12, escala de
+     0 a 4), variable dicotómica pr0pu1 (0/1), indicadores binarios (var61
+     a var72) y puntajes continuos (meaning., peace., faith., BE.).
+   - Usos principales: Modelos MIMIC de segundo orden con correlación de
+     errores residuales (ej. x10 ~~ x11) y predictores sobre constructos
+     de orden superior.
+
+------------------------------------------------------------------------
+¿CÓMO UTILIZA ESTAS BASES CHARLY APP?
+------------------------------------------------------------------------
+No es necesario mover ni copiar estos archivos. Al ejecutar Charly App y 
+pegar una consigna del catálogo (por ejemplo: "En Base_A.xlsx..."), el
+sistema busca y localiza automáticamente el archivo en esta carpeta
+'datasets_ejemplo/', creando una copia de trabajo segura en su espacio
+local para evitar bloqueos de lectura de Excel.
+
+Si usted desea probar sus propios datos, puede colocar sus archivos
+Excel en esta misma carpeta, en su carpeta de 'Descargas' o directamente
+en su 'Escritorio'.
+========================================================================

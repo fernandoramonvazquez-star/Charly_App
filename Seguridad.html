@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seguridad y Privacidad · Charly App</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --code-bg: #030712;
+      --step-num-bg: #1e293b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      padding: 0 0 60px 0;
+    }
+    .header {
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(11, 15, 25, 0.95) 100%);
+      border-bottom: 1px solid var(--card-border);
+      padding: 44px 24px 32px 24px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--primary);
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .header h1 {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .header p {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 26px 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    }
+    .section-card h2 {
+      font-size: 20px;
+      color: var(--primary);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-card p, .section-card li {
+      color: var(--text);
+      font-size: 14.5px;
+      margin-bottom: 10px;
+    }
+    .section-card ul {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid var(--card-border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background: var(--step-num-bg);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    td {
+      background: rgba(17, 24, 39, 0.6);
+    }
+    .callout {
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 4px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .callout-warning {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 4px solid var(--warning);
+      padding: 14px 18px;
+      border-radius: 4px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .callout-success {
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 4px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: 4px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    code {
+      background: var(--code-bg);
+      color: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 13.5px;
+      border: 1px solid var(--card-border);
+    }
+    .footer {
+      text-align: center;
+      padding-top: 30px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--card-border);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="badge">🔒 Transparencia Metodológica y Privacidad</div>
+    <h1>Seguridad y Protección de Datos</h1>
+    <p>Charly App ejecuta el motor estadístico R de forma local en su computadora. Este documento detalla qué procesos se ejecutan, qué datos se transmiten y cómo se protegen sus credenciales.</p>
+  </header>
+
+  <main class="container">
+
+    <!-- 1. Ejecución Local -->
+    <article class="section-card">
+      <h2>1. El código R se ejecuta localmente con sus permisos</h2>
+      <p>El script de análisis (<code>workspace/generated_script.R</code>) es redactado por el modelo de lenguaje a partir de su consigna metodológica, pero <strong>se ejecuta de manera local en su propia máquina</strong> mediante el entorno de R instalado en su sistema.</p>
+      <ul>
+        <li>El script se ejecuta con los mismos privilegios que su usuario de Windows en esa sesión.</li>
+        <li>Charly realiza limpiezas y correcciones de sintaxis automáticas sobre el script antes de ejecutarlo.</li>
+        <li><strong>Control por el investigador</strong>: Charly abre automáticamente el script en <strong>RStudio</strong> al finalizar. Si analiza datos institucionales o sensibles, usted puede inspeccionar cada función convocada antes de reportar o utilizar las conclusiones.</li>
+      </ul>
+    </article>
+
+    <!-- 2. Políticas de Procesos -->
+    <article class="section-card">
+      <h2>2. Procesos del sistema y PowerShell</h2>
+      <ul>
+        <li>Los scripts auxiliares internos se ejecutan con <code>-ExecutionPolicy Bypass</code> <strong>exclusivamente para cada proceso hijo</strong> generado por Charly App. La política global de PowerShell de su sistema operativo Windows <strong>no es modificada</strong>.</li>
+        <li>Cualquier proceso en ejecución (cálculo en R, llamada a la API o servidor local) puede interrumpirse de inmediato presionando el botón <strong>⛔ Cancelar</strong> en la barra superior.</li>
+      </ul>
+    </article>
+
+    <!-- 3. Qué sale de la máquina -->
+    <article class="section-card">
+      <h2>3. Qué información sale de su computadora</h2>
+      <p>Charly App ofrece dos modalidades operativas con distintos perfiles de privacidad:</p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Modalidad</th>
+            <th>Qué información se transmite</th>
+            <th>Destino</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Modo Nube (Gemini)</strong></td>
+            <td>Su texto de consigna + la ficha descriptiva de la base (nombres de variables, tipo de datos, N total y cantidad de valores ausentes). <em>No se transmiten filas individuales con respuestas crudas de los participantes.</em></td>
+            <td>Servidor oficial de Google (<code>generativelanguage.googleapis.com</code>) vía HTTPS cifrado.</td>
+          </tr>
+          <tr>
+            <td><strong>Modo Local (Offline / Seru Girán)</strong></td>
+            <td>La misma ficha descriptiva y consigna, pero enviada únicamente a la dirección local <code>127.0.0.1</code> de su máquina.</td>
+            <td><strong>Su propia computadora física</strong>. Ninguna información viaja a través de internet.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout-success">
+        <strong>Recomendación para datos de alta sensibilidad:</strong> Si trabaja con bases de datos confidenciales con restricciones éticas o comités de bioética que prohíban la transmisión de nombres de variables a servidores externos, seleccione el <strong>Modo Local (Offline)</strong>.
+      </div>
+    </article>
+
+    <!-- 4. Protección de Credenciales -->
+    <article class="section-card">
+      <h2>4. Protección de su Clave API de Google</h2>
+      <ul>
+        <li>Su API Key de Google nunca se almacena en texto plano ni se incluye en los scripts de R generados.</li>
+        <li>Se guarda cifrada en disco mediante la <strong>API de Protección de Datos de Windows (DPAPI)</strong> en <code>%APPDATA%\Charly_App\settings.json</code>. Esta tecnología vincula el cifrado a su usuario exclusivo de Windows en esa computadora particular; si el archivo se copia a otra máquina, no puede ser descifrado.</li>
+        <li>Durante la comunicación con Google, la clave se transmite únicamente en el encabezado seguro <code>x-goog-api-key</code> mediante el protocolo HTTPS.</li>
+      </ul>
+    </article>
+
+    <!-- 5. Registro de Actividad -->
+    <article class="section-card">
+      <h2>5. Registro de actividad (Logs)</h2>
+      <p>El archivo de registro técnico (<code>%APPDATA%\Charly_App\charly.log</code>) registra únicamente eventos del sistema (rutas de R detectadas, tiempos de ejecución o fallos de procesos). <strong>No registra claves de API, datos numéricos de los participantes ni el contenido de sus bases.</strong></p>
+    </article>
+
+    <!-- 6. Recomendaciones -->
+    <article class="section-card">
+      <h2>6. Buenas prácticas de trabajo</h2>
+      <ol style="padding-left: 20px; font-size: 14.5px;">
+        <li style="margin-bottom: 8px;"><strong>Verificación independiente:</strong> Revise siempre el archivo <code>workspace/generated_script.R</code> en RStudio para verificar las decisiones metodológicas adoptadas.</li>
+        <li style="margin-bottom: 8px;"><strong>Resguardo de resultados:</strong> Los informes en Word y las salidas de consola se almacenan localmente en la carpeta de la aplicación; cópielos a su carpeta de investigación definitiva al terminar.</li>
+        <li style="margin-bottom: 8px;"><strong>Entornos compartidos:</strong> Si utiliza una computadora compartida de laboratorio, no comparta su sesión de usuario de Windows para mantener la protección de DPAPI sobre sus credenciales.</li>
+      </ol>
+    </article>
+
+    <div class="footer">
+      <p>Charly App · Asistente computacional para análisis psicométrico en R · Rigor, reproducibilidad y privacidad local.</p>
+    </div>
+
+  </main>
+
+</body>
+</html>
+

@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.bak
+*.log
+debug.log
+.pytest_cache/
+
+# Charly App temporales y reportes de sesion
+charly_temp_dataset.csv
+INFORME_AUDITORIA_ARGON.md
+Informe_Charly_Psicometria*.docx
+Subir_a_GitHub.bat
+Subir_a_GitHub.ps1
+
+# Entornos y editores
+.vscode/
+.idea/
+.Rhistory
+.RData
+.Rproj.user/
+Thumbs.db
+desktop.ini
+
+# Espacios de trabajo dinamicos (solo conservar .gitkeep)
+workspace/*
+!workspace/.gitkeep
+charly_core_bundle/workspace/*
+!charly_core_bundle/workspace/.gitkeep
+charly_core_bundle/dataset_profile.json
+charly_core_bundle/dataset_prompt_block.txt
+charly_core_bundle/r_env_specs.json
+charly_core_bundle/r_env_prompt_block.txt
+
+# Datos de usuario (proteger privacidad, salvo los ejemplos anonimizados)
+*.xlsx
+*.sav
+*.rds
+*.csv
+!datasets_ejemplo/*.xlsx
+!datasets_ejemplo/LEEME_BASES.txt

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Consignas Psicométricas · Charly App</title>
+  <style>
+    :root {
+      --bg: #0B0F19;
+      --card-bg: #161B22;
+      --card-border: #30363D;
+      --text: #C9D1D9;
+      --text-muted: #8B949E;
+      --primary: #58A6FF;
+      --accent: #56D364;
+      --warning: #F2CC60;
+      --tag-bg: #21262D;
+      --code-bg: #0D1117;
+      --btn-copy: #238636;
+      --btn-copy-hover: #2EA043;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+    .header {
+      background: linear-gradient(180deg, #161B22 0%, #0B0F19 100%);
+      border-bottom: 1px solid var(--card-border);
+      padding: 40px 20px 25px 20px;
+      text-align: center;
+    }
+    .badge-top {
+      display: inline-block;
+      background: rgba(88, 166, 255, 0.15);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #F0F6FC;
+      margin-bottom: 8px;
+    }
+    .header p {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      max-width: 800px;
+      margin: 0 auto 16px auto;
+    }
+    .info-box {
+      background: rgba(33, 38, 45, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 13.5px;
+    }
+    .info-box h3 {
+      color: var(--warning);
+      font-size: 14px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .db-card {
+      background: #0D1117;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 10px 14px;
+    }
+    .db-card strong { color: var(--accent); }
+    
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+    .controls {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .search-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 250px;
+      background: #0D1117;
+      border: 1px solid var(--card-border);
+      color: #F0F6FC;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+    .select-dataset {
+      background: #0D1117;
+      border: 1px solid var(--card-border);
+      color: #F0F6FC;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+    }
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pill {
+      background: #21262D;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+    .pill:hover {
+      background: #30363D;
+      color: #F0F6FC;
+    }
+    .pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #0D1117;
+      font-weight: 700;
+    }
+    .results-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    
+    .tasks-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .task-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.15s ease;
+    }
+    .task-card:hover {
+      border-color: var(--primary);
+    }
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .task-id-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .task-id {
+      background: #21262D;
+      border: 1px solid #30363D;
+      color: #F2CC60;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    .task-arch {
+      font-size: 14px;
+      font-weight: 700;
+      color: #58A6FF;
+    }
+    .task-badges {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .badge-db {
+      background: rgba(86, 211, 100, 0.15);
+      border: 1px solid rgba(86, 211, 100, 0.4);
+      color: #56D364;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-est {
+      background: rgba(242, 204, 96, 0.15);
+      border: 1px solid rgba(242, 204, 96, 0.4);
+      color: #F2CC60;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .task-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #F0F6FC;
+      margin-bottom: 10px;
+    }
+    .tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .tag-item {
+      background: #21262D;
+      color: #8B949E;
+      font-size: 11.5px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid #30363D;
+    }
+    .prompt-box {
+      position: relative;
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      color: #E6EDF3;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.5;
+    }
+    .btn-copy {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--btn-copy);
+      border: none;
+      color: #FFF;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.15s ease;
+    }
+    .btn-copy:hover {
+      background: var(--btn-copy-hover);
+    }
+    .task-note {
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: #F2CC60;
+      background: rgba(242, 204, 96, 0.08);
+      border-left: 3px solid #F2CC60;
+      padding: 6px 12px;
+      border-radius: 0 4px 4px 0;
+    }
+    .footer {
+      text-align: center;
+      padding-top: 40px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--card-border);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="badge-top">Sintaxis Validada en R · Ejecución Local y Reproducible</div>
+    <h1>Catálogo de Consignas Psicométricas Canónicas</h1>
+    <p>Compendio de 47 casos y modelos estructurados para evaluación, docencia e investigación psicométrica en R con Charly App.</p>
+    
+    <div class="info-box">
+      <h3>📁 Bases de Datos del Repositorio (Ubicación: <code>datasets_ejemplo/</code>)</h3>
+      <p>Todas las bases vienen incluidas dentro de la carpeta <code>datasets_ejemplo/</code> al descargar Charly App. No requiere moverlas: Charly las detecta automáticamente.</p>
+      <div class="info-grid">
+        <div class="db-card">
+          <strong>Base_A.xlsx</strong> (Hoja única <code>RESPUESTAS</code>, N = 591): 24 ítems Likert de 1 a 6 (<code>I2</code> a <code>I49</code>, código <code>7 = No aplica</code>), covariables (<code>EDAD</code>, <code>GENERO</code>, <code>COBERTURA</code>, <code>NIVEL_EDUCATIVO</code>), <code>RECOMENDACION</code> y <code>SEDE</code>.
+        </div>
+        <div class="db-card">
+          <strong>Base_B.xlsx</strong> (Hoja <code>Hoja1</code>, N = 306): Mismos 24 reactivos Likert (<code>I2</code> a <code>I49</code>, escala de 1 a 6), covariables abreviadas (<code>edad</code>, <code>genero</code>, <code>cobert</code>, <code>educa</code>) y <code>Recomen</code>, usada en replicaciones y modelos no recursivos.
+        </div>
+        <div class="db-card">
+          <strong>Base_C.xlsx</strong> (Hoja <code>Hoja1</code>, N = 148): Escala de bienestar con reactivos <code>x1</code> a <code>x12</code> (0 a 4), covariables (<code>Edad</code>, <code>Genero</code>, <code>Educacion</code>, <code>pr0pu1</code>), indicadores binarios (<code>var61</code>–<code>var72</code>) y puntajes continuos, usada en modelos MIMIC con correlación residual.
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="controls">
+      <div class="search-row">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar por palabra clave, ítem (ej. I8, EDAD), técnica o estimador...">
+        <select id="datasetSelect" class="select-dataset">
+          <option value="all">Todas las Bases de Datos</option>
+          <option value="Base_A.xlsx">Base_A.xlsx</option>
+          <option value="Base_B.xlsx">Base_B.xlsx</option>
+          <option value="Base_C.xlsx">Base_C.xlsx</option>
+        </select>
+      </div>
+      <div class="filter-pills" id="pillsContainer">
+        <div class="pill active" data-arch="all">Todos los Modelos (47)</div>
+        <div class="pill" data-arch="1. AFC Primer Orden">1. AFC Primer Orden</div>
+        <div class="pill" data-arch="2. AFC Segundo Orden">2. AFC Segundo Orden</div>
+        <div class="pill" data-arch="3. Bifactorial">3. Bifactorial</div>
+        <div class="pill" data-arch="4. MIMIC & Invarianza / DIF">4. MIMIC & DIF</div>
+        <div class="pill" data-arch="5. SEM / Senderos">5. SEM / Senderos</div>
+        <div class="pill" data-arch="6. SEM / No Recursivo">6. SEM / No Recursivo</div>
+        <div class="pill" data-arch="7. ACP (Componentes Principales)">7. ACP</div>
+        <div class="pill" data-arch="8. AFE (Factorial Exploratorio)">8. AFE</div>
+        <div class="pill" data-arch="9. Regresión Logística">9. Regresión Logit</div>
+        <div class="pill" data-arch="10. Regresión Probit">10. Regresión Probit</div>
+      </div>
+    </div>
+
+    <div class="results-count" id="resultsCount">Mostrando 47 consignas</div>
+
+    <div class="tasks-grid" id="tasksGrid"></div>
+
+    <div class="footer">
+      <p>Charly App · Asistente computacional para análisis psicométrico reproducible en R · Rigor, humildad y transparencia científica.</p>
+    </div>
+  </main>
+
+  <script>
+    const TASKS = [{"arch_num": "1", "archetype": "1. AFC Primer Orden", "title": "AFC Primer Orden (4 factores)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Fiabilidad Compuesta (CR)", "AVE", "Fornell-Larcker", "Matriz HTMT"], "prompt": "Trabajando con Base_A.xlsx en la hoja RESPUESTAS, haceme un AFC de primer orden con WLSMV. Los factores son Operativo (I2, I3, I4), Relacional (I7, I8, I9), Estrategico (I30, I33, I37) y Liderazgo (I22, I23, I24). Acordate de invertir el I8 y recodificar los 7 como NA en I2 y I24. Quiero ver el ajuste, fiabilidad compuesta, ave, validez discriminante por Fornell-Larcker, y la matriz HTMT.", "note": "(El sistema agrega Modificacion de índices que no fue pedido)", "id": "TASK-01"}, {"arch_num": "2", "archetype": "2. AFC Segundo Orden", "title": "AFC Segundo Orden jerárquico", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Macro-factor Jerárquico"], "prompt": "Tengo los datos en Base_A.xlsx (hoja RESPUESTAS). Armame un modelo de segundo orden donde un factor general llamado 'Desempeño' explique a 4 factores de primer orden: Operativo (I2 a I4), Relacional (I7 a I9), Estratégico (I30, I33, I37) y Liderazgo (I22 a I24). Recodificá I2 e I24 (7=NA). Invertí el item I8. Estimá con WLSMV. Mostrame las cargas de primer y segundo orden.", "note": "(El sistema agrega la Fiabilidad Compuesta y el ajuste global que no fue pedido)", "id": "TASK-02"}, {"arch_num": "2", "archetype": "2. AFC Segundo Orden", "title": "Segundo Orden + MIMIC (WLSMV)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Segundo Orden + MIMIC"], "prompt": "Tengo los datos en Base_A.xlsx (hoja RESPUESTAS). Armame un modelo de segundo orden donde un factor general llamado 'Desempeño' explique a 4 factores de primer orden: Operativo (I2 a I4), Relacional (I7 a I9), Estratégico (I30, I33, I37) y Liderazgo (I22 a I24). Recodificá I2 e I24 (7=NA) y estimá con WLSMV. Inverti el item I8. Mostrame las cargas de primer y segundo orden y fijate si las variables sociodemográficas GENERO y EDAD predicen al factor general de segundo orden llamado 'Desempeño'. GENERO -> Desempeño. EDAD -> Desempeño.", "note": "(el sistema agrega los R cuadrados que no se pidieron)", "id": "TASK-03"}, {"arch_num": "2", "archetype": "2. AFC Segundo Orden", "title": "Segundo Orden + MIMIC (MLR Listwise)", "dataset": "Base_A.xlsx", "estimator": "MLR", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Faltantes Listwise", "Segundo Orden + MIMIC"], "prompt": "Tengo los datos en Base_A.xlsx (hoja RESPUESTAS). Armame un modelo de segundo orden donde un factor general llamado 'Desempeño' explique a 4 factores de primer orden: Operativo (I2 a I4), Relacional (I7 a I9), Estratégico (I30, I33, I37) y Liderazgo (I22 a I24). Recodificá I2 e I24 (7=NA) y estimá con MLR. Inverti el item I8. Mostrame las cargas de primer y segundo orden y fijate si las variables sociodemográficas GENERO y EDAD predicen al factor general de segundo orden llamado 'Desempeño'. GENERO -> Desempeño. EDAD -> Desempeño. Usa listwise.", "note": "(El sistema agregó R cuadrado y medidas de ajuste global)", "id": "TASK-04"}, {"arch_num": "2", "archetype": "2. AFC Segundo Orden", "title": "Segundo Orden + MIMIC en Base B", "dataset": "Base_B.xlsx", "estimator": "MLR", "is_structured": false, "tags": ["Inversión I8", "Segundo Orden + MIMIC"], "prompt": "Con Base_B.xlsx, armame un modelo de segundo orden donde un factor general llamado 'Desempeño' explique a 4 factores de primer orden: Operativo (I2 a I4), Relacional (I7 a I9), Estratégico (I30, I33, I37) y Liderazgo (I22 a I24). Estimá con MLR. Inverti el item I8. Mostrame las cargas de primer y segundo orden y fijate si las variables sociodemográficas genero y edad predicen al factor general de segundo orden llamado 'Desempeño'. genero -> Desempeño. edad -> Desempeño.", "note": "(El sistema agregó R cuadrado y medidas de ajuste global)", "id": "TASK-05"}, {"arch_num": "2", "archetype": "2. AFC Segundo Orden", "title": "Segundo Orden con predictores MIMIC estructurado (WLSMV v1)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Filtro Género (1/2)", "EDAD Continua", "Fiabilidad Compuesta (CR)", "Segundo Orden + MIMIC"], "prompt": "Trabajando con Base_A.xlsx en la hoja RESPUESTAS, estimá un modelo AFC de Segundo Orden con predictores MIMIC bajo estimador WLSMV.\nPreprocesamiento e higiene de datos:\n- En los ítems I2 e I24 recodificá los valores 7 como NA.\n- Invertí la polaridad del ítem I8 (fórmula canónica).\n- En GENERO conservá únicamente las categorías 1 y 2 (las demás pasan a NA).\n- La variable EDAD es continua y debe excluirse del vector de variables ordenadas (ordered). Los ítems I se tratan como ordinales.\nEstructura de medición de primer orden:\n- Operativo medido por I2, I3 e I4.\n- Relacional medido por I7, I8 e I9.\n- Liderazgo medido por I22, I23 e I24.\nEstructura de segundo orden y regresión MIMIC:\n- Un macro-factor general de segundo orden llamado Desempeño explica a los tres factores de primer orden: Operativo, Relacional y Liderazgo.\n- Las covariables EDAD y GENERO predicen al factor de segundo orden Desempeño:\nEDAD -> Desempeño.\nGENERO -> Desempeño.\nEntregables:\nQuiero ver los índices de ajuste global (CFI, TLI, RMSEA, SRMR), las cargas factoriales estandarizadas de primer y segundo orden, la fiabilidad compuesta (CR) de los factores de primer orden y del macro-factor de segundo orden, y los coeficientes de regresión estandarizados de EDAD y GENERO sobre Desempeño con sus errores estándar y p-valores.", "note": "", "id": "TASK-06"}, {"arch_num": "2", "archetype": "2. AFC Segundo Orden", "title": "Segundo Orden con predictores MIMIC estructurado (WLSMV v2)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Filtro Género (1/2)", "EDAD Continua", "Fiabilidad Compuesta (CR)", "Segundo Orden + MIMIC"], "prompt": "Trabajando con Base_A.xlsx en la hoja RESPUESTAS, estimá un modelo AFC de Segundo Orden con predictores MIMIC bajo estimador WLSMV.\nPreprocesamiento e higiene de datos:\n- En los ítems I2 e I24 recodificá los valores 7 como NA.\n- Invertí la polaridad del ítem I8 (fórmula canónica).\n- En GENERO conservá únicamente las categorías 1 y 2 (las demás pasan a NA).\n- La variable EDAD es continua y debe excluirse del vector de variables ordenadas (ordered). Los demas ítems se tratan como ordinales.\nEstructura de medición de primer orden:\n- Operativo medido por I2, I3 e I4.\n- Relacional medido por I7, I8 e I9.\n- Liderazgo medido por I22, I23 e I24.\nEstructura de segundo orden y regresión MIMIC:\n- Un macro-factor general de segundo orden llamado Desempeño explica a los tres factores de primer orden: Operativo, Relacional y Liderazgo.\n- Las covariables EDAD y GENERO predicen al factor de segundo orden Desempeño:\nEDAD -> Desempeño.\nGENERO -> Desempeño.\nEntregables:\nQuiero ver los índices de ajuste global (CFI, TLI, RMSEA, SRMR), las cargas factoriales estandarizadas de primer y segundo orden, la fiabilidad compuesta (CR) de los factores de primer orden y del macro-factor de segundo orden, y los coeficientes de regresión estandarizados de EDAD y GENERO sobre Desempeño con sus errores estándar y p-valores.", "note": "", "id": "TASK-07"}, {"arch_num": "3", "archetype": "3. Bifactorial", "title": "Bifactorial canónico (9 reactivos)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Factor General + Específicos"], "prompt": "Usá Base_A.xlsx (hoja RESPUESTAS). Ajustá un modelo bifactorial con WLSMV. Quiero un Factor General que cargue en todos estos ítems: I2, I3, I4, I7, I8, I9, I30, I33, I37. Con estos factores especificoss: Operativo (I2 a I4), Relacional (I7 a I9). Estratégico (I30, I33, I37). Invertí I8 y limpiá los 7 de I2 e I24.", "note": "(El sistema agrego los índices de Reise y Rodríguez: Calculó y reportó Omega y medidas de ajuste global)", "id": "TASK-08"}, {"arch_num": "3", "archetype": "3. Bifactorial", "title": "Bifactorial canónico (12 reactivos)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Factor General + Específicos"], "prompt": "Usá Base_A.xlsx (hoja RESPUESTAS). Ajustá un modelo bifactorial con WLSMV. Quiero un Factor General que cargue en todos estos ítems: I2, I3, I4, I7, I8, I9, I17, I18, I20, I47, I48 e I49. Con estos factores especificos: Operativo (I2 a I4), Relacional (I7 a I9), Estratégico (I17, I18, I20) y Pirulo (I47, I48, I49) . Invertí I8 y considera datos faltantes los 7 de I2.", "note": "(El sistema agrego los índices de Reise y Rodríguez: Calculó y reportó Omega y medidas de ajuste global)", "id": "TASK-09"}, {"arch_num": "3", "archetype": "3. Bifactorial", "title": "Bifactorial canónico en Base B", "dataset": "Base_B.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Factor General + Específicos"], "prompt": "Con Base_B.xlsx, ajustá un modelo bifactorial con WLSMV. Quiero un Factor General que cargue en todos estos ítems: I2, I3, I4, I7, I8, I9, I17, I18, I20, I47, I48 e I49. Con estos factores especificos: Operativo (I2 a I4), Relacional (I7 a I9), Estratégico (I17, I18, I20) y Pirulo (I47, I48, I49) . Invertí I8 y considera datos faltantes los 7 de I2", "note": "(El sistema agrego los índices de Reise y Rodríguez: Calculó y reportó Omega y medidas de ajuste global)", "id": "TASK-10"}, {"arch_num": "3", "archetype": "3. Bifactorial", "title": "Bifactorial canónico estructurado con índices Reise & Rodríguez", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Índices Reise & Rodríguez"], "prompt": "Trabajando con Base_A.xlsx en la hoja RESPUESTAS, estimá un modelo Bifactorial canónico con estimador WLSMV.\nPreprocesamiento: En los ítems I2 e I24 recodificá los valores 7 como NA, y el ítem I8 invertilo por estar formulado en sentido inverso.\nDefiní una estructura bifactorial completa:\n- Un Factor General (Factor_General) que cargue sobre la totalidad de los 12 ítems: I2, I3, I4, I7, I8, I9, I22, I23, I24, I30, I33 e I37.\n- Cuatro factores específicos ortogonales:\n* Operativo: I2, I3, I4\n* Relacional: I7, I8, I9\n* Liderazgo: I22, I23, I24\n* Estrategico: I30, I33, I37\nAsegurá la condición de ortogonalidad estricta entre el factor general y los factores específicos.\nQuiero ver los índices de ajuste global (CFI, TLI, RMSEA, SRMR), las cargas factoriales estandarizadas y la tabla completa de índices de estructura y fiabilidad de Reise y Rodríguez: Omega Jerárquico (Omega_H), Omega Total (Omega_T), Varianza Común Explicada (ECV_G), Porcentaje de Correlaciones No Contaminadas (PUC), y los Omegas Jerárquicos de subescala pura (Omega_HS) para cada factor específico.", "note": "(El sistema realiza lo solicitado pero el modelo no converge)", "id": "TASK-11"}, {"arch_num": "3", "archetype": "3. Bifactorial", "title": "Bifactorial canónico 12 reactivos con I37 continuo e índices Reise & Rodríguez", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "I37 Continuo", "Faltantes Pairwise", "Índices Reise & Rodríguez"], "prompt": "Hola, Charly, una última para cerrar por hoy con Base_A.xlsx (hoja RESPUESTAS). Necesito ajustar un modelo Bifactorial canónico con estimador WLSMV y faltantes pairwise. En el preprocesamiento, recodifica como NA los valores 7 en I2 e I24 e invierte el ítem I8. Arma un Factor General (Factor_General) que cargue sobre los 12 ítems: I2, I3, I4, I7, I8, I9, I22, I23, I24, I30, I33 e I37. Al mismo tiempo, define cuatro factores específicos estrictamente ortogonales entre ellos y ortogonales frente al Factor General: Operativo (I2, I3, I4), Relacional (I7, I8, I9), Liderazgo (I22, I23, I24) y Estrategico (I30, I33, I37). Ten presente que el ítem I37 se debe tratar como continuo y los otros 11 ítems como ordinales. Necesito ver los índices de ajuste global, las cargas factoriales estandarizadas y todos los índices de Reise y Rodríguez: Omega Jerárquico (Omega_H), Omega Total (Omega_T), Varianza Común Explicada (ECV_G), Porcentaje de Correlaciones No Contaminadas (PUC) y el Omega Jerárquico de subescala (Omega_HS) para cada uno de los cuatro factores específicos.", "note": "", "id": "TASK-12"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC unifactorial (Liderazgo)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Recodificar NA = 7", "Score Test (Muthén)"], "prompt": "Con Base_A.xlsx (RESPUESTAS), armá un modelo MIMIC. Medí el factor 'Liderazgo' con I22, I23 e I24 (sacando los 7 de I24) y fijate si las variables sociodemográficas GENERO y EDAD predicen al factor. Además, testeá si hay DIF (funcionamiento diferencial) de GENERO sobre los ítems de Liderazgo usando el Score Test.", "note": "(Observación docente: esta tarea son dos cosas a la vez: el sistema hace análisis de DIF conjuntamente para Género y Edad. Cada tarea debe pedirse individualmente. Deberían ser: 1) Con Base_A.xlsx (RESPUESTAS), armá un modelo MIMIC. Medí el factor 'Liderazgo' con I22, I23 e I24 (sacando los 7 de I24) y fijate si las variables sociodemográficas GENERO y EDAD predicen al factor. 2) Con Base_A.xlsx (RESPUESTAS), armá un modelo MIMIC. Medí el factor 'Liderazgo' con I22, I23 e I24 (sacando los 7 de I24) y fijate si la variable sociodemográfica GENERO produce DIF (funcionamiento diferencial) sobre los ítems de Liderazgo usando el Score Test. En la opción 1 hace lo solicitado, pero agrega Índices de ajuste, cargas factoriales y R cuadrados. En la opción 2 hace lo solicitado, pero agrega Índices de ajuste y R cuadrados.)", "id": "TASK-13"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC unifactorial con covariables (GENERO y EDAD)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Recodificar NA = 7", "Filtro Género (1/2)", "Score Test (Muthén)"], "prompt": "Con Base_A.xlsx (RESPUESTAS), armá un modelo MIMIC. Medí el factor 'Liderazgo' con I22, I23 e I24 y fijate si las variables sociodemográficas GENERO y EDAD predicen al factor. Además, testeá si hay DIF (funcionamiento diferencial) con GENERO y EDAD sobre los ítems de Liderazgo usando el Score Test. El valor 7 de I24 ponelo como NA. Los valores 3 y 4 de GENERO consideralos como NA.", "note": "(Hace lo solicitado, pero agrega Índices de ajuste y R cuadrados).", "id": "TASK-14"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC tres factores en Base B", "dataset": "Base_B.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Score Test (Muthén)", "Ajuste Bonferroni"], "prompt": "Con Base_B.xlsx, armame un modelo con tres factores de primer orden: Operativo (I2 a I4), Relacional (I7 a I9) y Liderazgo (I22 a I24). Recodificá I2 e I24 (7=NA) y estimá con WLSMV. Inverti el item I8. TEstea en los tres factores si hay DIF (funcionamiento diferencial) con GENERO, EDAD y educa usando el Score Test, con Bomferroni.", "note": "(Hace lo solicitado, pero agrega Índices de ajuste y R cuadrados).", "id": "TASK-15"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC / DIF cuatro factores (GENERO y EDAD con Bonferroni)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Score Test (Muthén)", "Ajuste Bonferroni"], "prompt": "En Base_A.xlsx (hoja RESPUESTAS). Armame un modelo con cuatro factores de primer orden: Operativo (I2 a I4), Relacional (I7 a I9), Estratégico (I30, I33, I37) y Liderazgo (I22 a I24). Recodificá I2 e I24 (7=NA) y estimá con WLSMV. Inverti el item I8. TEstea en los cuatro factores si hay DIF (funcionamiento diferencial) con GENERO y EDAD usando el Score Test, con Bomferroni.", "note": "(Hace lo solicitado, pero agrega Índices de ajuste y R cuadrados).", "id": "TASK-16"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC / DIF tres factores (GENERO, EDAD y NIVEL EDUCATIVO)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Score Test (Muthén)", "Ajuste Bonferroni"], "prompt": "En Base_A.xlsx (hoja RESPUESTAS). Armame un modelo con tres factores de primer orden: Operativo (I2 a I4), Relacional (I7 a I9) y Liderazgo (I22 a I24). Recodificá I2 e I24 (7=NA) y estimá con WLSMV. Inverti el item I8. TEstea en los tres factores si hay DIF (funcionamiento diferencial) con GENERO, EDAD y NIVEL EDUCATIVO usando el Score Test, con Bomferroni.", "note": "(Hace lo solicitado, pero agrega Índices de ajuste y R cuadrados).", "id": "TASK-17"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC / DIF tres factores (I7 continuo)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "I7 Continuo", "Score Test (Muthén)", "Ajuste Bonferroni"], "prompt": "En Base_A.xlsx (hoja RESPUESTAS). Armame un modelo con tres factores de primer orden: Operativo (I2 a I4), Relacional (I7 a I9) y Liderazgo (I22 a I24). Recodificá I2 e I24 (7=NA) y estimá con WLSMV, pero el item I7 consideralo como continuo. Inverti el item I8. TEstea en los tres factores si hay DIF (funcionamiento diferencial) con GENERO, EDAD y NIVEL EDUCATIVO usando el Score Test, con Bomferroni.", "note": "(Hace lo solicitado, pero agrega Índices de ajuste y R cuadrados).", "id": "TASK-18"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC / DIF tres factores (I7 continuo y filtro GENERO)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Filtro Género (1/2)", "I7 Continuo", "Score Test (Muthén)", "Ajuste Bonferroni"], "prompt": "En Base_A.xlsx (hoja RESPUESTAS). Armame un modelo con tres factores de primer orden: Operativo (I2 a I4), Relacional (I7 a I9) y Liderazgo (I22 a I24). Recodificá I2 e I24 (7=NA). Los valores 3 y 4 de GENERO también consideralos como NA. Estimá con WLSMV, pero el item I7 consideralo como continuo. Inverti el item I8. TEstea en los tres factores si hay DIF (funcionamiento diferencial) con GENERO, EDAD y NIVEL EDUCATIVO usando el Score Test, con Bomferroni", "note": "(Hace lo solicitado, pero agrega Índices de ajuste y R cuadrados).", "id": "TASK-19"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC en Base C (Sentido, Paz y FE; 2do orden Global)", "dataset": "Base_C.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Segundo Orden + MIMIC", "Correlación Residuales (x10~~x11)", "Covariables Múltiples"], "prompt": "En la base \"Base_C.xlsx\", armá un modelo MIMIC. Con tres factores de primer orden: Sentido con x2, x3, x5, y x8; Paz con x1, x6 y x7 y FE con x10, x11 y x12. El factor \"Global\", de segundo orden, larga flecha hacia los tres factores de primer orden. Hace la correlacion de errores de medida entre x10 y x11. Las predictoras Edad, Genero, Educacion y pr0pu1 cargan sobre el factor de segundo orden \"Global\". Decime los indicadores de ajuste global y los coeficientes de todo el modelo mimic", "note": "", "id": "TASK-20"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC en Base C con covariables sociodemográficas", "dataset": "Base_C.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Segundo Orden + MIMIC", "Correlación Residuales (x10~~x11)", "Senderos hacia Global"], "prompt": "En la base \"Base_C.xlsx\", armá un modelo MIMIC. Con tres factores de primer orden: Sentido con x2, x3, x5, y x8; Paz con x1, x6 y x7 y Fe con x10, x11 y x12. El factor \"Global\", de segundo orden, larga flecha hacia los tres factores de primer orden. Hace la correlacion de errores de medida entre x10 y x11. Las predictoras Edad -> Global, Genero -> Global, Educacion ->Global y pr0pu1 -> Global, cargan sobre el factor de segundo orden \"Global\". Decime los indicadores de ajuste global y los coeficientes de todo el modelo mimic", "note": "", "id": "TASK-21"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC multivariado con Score Test DIF y Bonferroni", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Filtro Género (1/2)", "EDAD Continua", "Score Test (Muthén)", "Ajuste Bonferroni"], "prompt": "Utilizando el archivo Base_A.xlsx (hoja RESPUESTAS), estimá un modelo MIMIC multivariado con estimador WLSMV para evaluar invarianza estructural y sesgo de medición.\nPreprocesamiento: Recodificá los valores 7 como NA en los ítems I2 e I24; invertí la escala del ítem I8; y en la covariable GENERO recodificá los valores 3 y 4 como NA.\nDefiní tres constructos latentes de primer orden:\n- Operativo: medido por I2, I3 e I4.\n- Relacional: medido por I7, I8 e I9.\n- Liderazgo: medido por I22, I23 e I24.\nLas covariables exógenas EDAD (continua) y GENERO (dicotómica) predicen simultáneamente a los tres factores latentes:\nEDAD -> Operativo. GENERO -> Operativo.\nEDAD -> Relacional. GENERO -> Relacional.\nEDAD -> Liderazgo. GENERO -> Liderazgo.\nEvaluá el Funcionamiento Diferencial del Ítem (DIF) de GENERO y EDAD sobre los ítems de Relacional (I7, I8, I9) y Liderazgo (I22, I23, I24) mediante el Score Test univariado.\nQuiero ver los índices de ajuste global, los coeficientes de las regresiones estructurales sobre los factores latentes, la tabla univariada del Score Test con corrección estricta de Bonferroni sobre los p-valores, y la identificación explícita de qué ítems presentan DIF significativo.", "note": "", "id": "TASK-22"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "MIMIC con evaluación de DIF Score Test de Muthén", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Filtro Género (1/2)", "EDAD Continua", "Score Test (Muthén)", "Ajuste Bonferroni"], "prompt": "Trabajando con Base_A.xlsx en la hoja RESPUESTAS, estimá un modelo MIMIC para evaluar el impacto de covariables y el Funcionamiento Diferencial de los Ítems (DIF) con estimador WLSMV.\nDefiní tres constructos latentes de primer orden:\n- Operativo: medido por I2, I3 e I4.\n- Relacional: medido por I7, I8 e I9.\n- Liderazgo: medido por I22, I23 e I24.\nCovariables predictoras exógenas en el modelo MIMIC:\n- EDAD (continua) y GENERO (dicotómica) impactan directamente sobre los tres constructos latentes: Operativo, Relacional y Liderazgo.\nPreprocesamiento e higiene:\n- En I2 e I24 recodificá los valores 7 como NA.\n- Invertí el ítem I8.\n- En GENERO conservá únicamente las categorías 1 y 2 (tratando las demás como NA).\n- EDAD es continua y debe excluirse del vector de variables ordenadas.\nEntregables:\nReportar las estimaciones del modelo base MIMIC (ajuste global y coeficientes estandarizados) y la tabla de evaluación de DIF mediante el Score Test univariado de Muthén (1989) a 1 gl para cada ítem frente a las covariables, con corrección de Bonferroni.", "note": "", "id": "TASK-23"}, {"arch_num": "4", "archetype": "4. MIMIC & Invarianza / DIF", "title": "Score Test DIF multivariado de Muthén (1989) a 1 gl con Bonferroni", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Filtro Género (1/2)", "I7 Continuo", "I37 Continuo", "EDAD Continua", "Faltantes Listwise", "Score Test (Muthén)", "Ajuste Bonferroni"], "prompt": "Qué tal, viejo Charly. Seguimos camellándole a la tesis con Base_A.xlsx en la hoja RESPUESTAS. Necesito evaluar únicamente si hay Funcionamiento Diferencial del Ítem (DIF) mediante el Score Test univariado de Muthén a 1 grado de libertad con corrección de Bonferroni, usando el estimador WLSMV y listwise. Hazme primero la higiene de los datos: pon como NA los valores 7 de I2 e I24, invierte el ítem I8, y en GENERO manda los valores 3 y 4 a NA. Define los cuatro factores de primer orden: Operativo (I2, I3, I4), Relacional (I7, I8, I9), Estrategico (I30, I33, I37) y Liderazgo (I22, I23, I24). Aquí viene lo delicado: los ítems I7 e I37 tómalos como continuos, y a la variable EDAD déjala también como continua fuera de las ordenadas; los demás ítems I sí son ordinales. Testea el DIF de las tres covariables GENERO, EDAD y NIVEL EDUCATIVO sobre los 12 ítems de los cuatro factores y muéstrame la tabla del Score Test ajustada con Bonferroni junto con el ajuste global.", "note": "", "id": "TASK-24"}, {"arch_num": "5", "archetype": "5. SEM / Senderos", "title": "Mediación latente secuencial (Operativo -> Relacional -> Estrategico)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Efecto Mediador / Indirecto"], "prompt": "Analizá la base Base_A.xlsx. Hay valores perdidos marcados con 7 en los ítems I2 e I24, recodificalos a NA, y el ítem I8 está invertido. Primero definí tres factores latentes: el factor Operativo está medido por los ítems I2, I3 e I4; el factor Relacional por I7, I8 e I9; y el factor Estrategico por I30, I33 e I37. Luego armá un modelo de ecuaciones estructurales con las siguientes relaciones directas: Operativo -> Relacional. Relacional -> Estrategico. Por favor calculame la mediación de Relacional en la relación entre Operativo y Estrategico.", "note": "(El sistema agrega Indices de ajuste)", "id": "TASK-25"}, {"arch_num": "5", "archetype": "5. SEM / Senderos", "title": "SEM mediación cuatro factores con covariable EDAD (I37 continuo)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "I37 Continuo", "Efecto Mediador / Indirecto"], "prompt": "Analizá la base Base_A.xlsx (hoja RESPUESTAS). Los valores 7 de I2 e I24 son NA y el ítem I8 está invertido. Usá WLSMV, salvo I37 que es continuo. Definí cuatro factores: Operativo (I2, I3, I4), Relacional (I7, I8, I9), Liderazgo (I22, I23, I24) y Estrategico (I30, I33, I37). Relaciones directas: Operativo -> Relacional. Operativo -> Liderazgo. Relacional -> Estrategico. Liderazgo -> Estrategico. Operativo -> Estrategico. EDAD -> Relacional. Calculame la mediación de Relacional en la relación entre Operativo y Estrategico.", "note": "(El sistema agrego efecto total e índices de ajuste.)", "id": "TASK-26"}, {"arch_num": "5", "archetype": "5. SEM / Senderos", "title": "Modelo de mediación con efectos indirectos totales", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Efecto Mediador / Indirecto"], "prompt": "Analizá la base Base_A.xlsx. Hay valores perdidos marcados con 7 en los ítems I2 e I24, recodificalos a NA, y el ítem I8 está invertido. Primero definí tres factores latentes: el factor Operativo está medido por los ítems I2, I3 e I4; el factor Relacional por I7, I8 e I9; y el factor Estrategico por I30, I33 e I37. Luego armá un modelo de ecuaciones estructurales con las siguientes relaciones directas: Operativo -> Relacional. Relacional -> Estrategico. Operativo -> Estrategico. Por favor calculame la mediación de Relacional en la relación entre Operativo y Estrategico.", "note": "(El sistema agrego el efecto total y los Índices de ajuste global)", "id": "TASK-27"}, {"arch_num": "5", "archetype": "5. SEM / Senderos", "title": "Mediación latente: Operativo -> Relacional -> Estrategico", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "I37 Continuo", "Efecto Mediador / Indirecto"], "prompt": "Analizá la base Base_A.xlsx. Hay valores perdidos marcados con 7 en los ítems I2 e I24, recodificalos a NA, y el ítem I8 está invertido. Usa WLSMV, salvo para el item I37 que es continuo. Primero definí tres factores latentes: el factor Operativo está medido por los ítems I2, I3 e I4; el factor Relacional por I7, I8 e I9; y el factor Estrategico por I30, I33 e I37. Luego armá un modelo de ecuaciones estructurales con las siguientes relaciones directas: Operativo -> Relacional. Relacional -> Estrategico. Por favor calculame la mediación de Relacional en la relación entre Operativo y Estrategico.", "note": "(El sistema agregó efecto indirecto total e índices de ajuste. El aviso de R alerta sobre un caso Heywood: el ítem I3 arrojó una leve varianza residual negativa.)", "id": "TASK-28"}, {"arch_num": "5", "archetype": "5. SEM / Senderos", "title": "Mediación latente en Base B", "dataset": "Base_B.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "I37 Continuo", "Efecto Mediador / Indirecto"], "prompt": "Con Base_B.xlsx. Hay valores perdidos marcados con 7 en los ítems I2 e I24, recodificalos a NA, y el ítem I8 está invertido. Usa WLSMV, salvo para el item I37 que es continuo. Primero definí tres factores latentes: el factor Operativo está medido por los ítems I2, I3 e I4; el factor Relacional por I7, I8 e I9; y el factor Estrategico por I30, I33 e I37. Luego armá un modelo de ecuaciones estructurales con las siguientes relaciones directas: Operativo -> Relacional. Relacional -> Estrategico. Por favor calculame la mediación de Relacional en la relación entre Operativo y Estrategico.", "note": "(Charly te avisa que no hay valores 7. El sistema agregó efecto indirecto total e índices de ajuste)", "id": "TASK-29"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "Senderos no recursivo con bucle recíproco (I4 <-> I7)", "dataset": "Base_B.xlsx", "estimator": "MLR", "is_structured": false, "tags": ["Inversión I8", "Bucle Recíproco"], "prompt": "Con Base_B.xlsx, armame un modelo de senderos no recursivo con las siguientes relaciones directas: I2 -> I3. I3 -> I4. I4 -> I7. I7 -> I4. I8 -> I7. Invertí el ítem I8 y estimá con MLR.", "note": "(El sistema agrego métricas psicométricas de rigor)", "id": "TASK-30"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "Senderos no recursivo con bucle y predictor EDAD", "dataset": "Base_B.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Bucle Recíproco"], "prompt": "Con Base_B.xlsx, armame un modelo de senderos no recursivo con las siguientes relaciones directas: I2 -> I3. I3 -> I4. edad -> I4. I4 -> I7. I7 -> I4. I8 -> I7. Invertí el ítem I8 y estimá con WLSMV.", "note": "(El sistema muestra un aviso de R aclarando que I2 e I8, por ser predictoras puras, se estiman linealmente en WLSMV.)", "id": "TASK-31"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "Senderos no recursivo con bucle y edad continua", "dataset": "Base_B.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "EDAD Continua", "Bucle Recíproco"], "prompt": "Con Base_B.xlsx, armame un modelo de senderos no recursivo con las siguientes relaciones directas: I2 -> I3. I3 -> I4. edad -> I4. I4 -> I7. I7 -> I4. I8 -> I7. Invertí el ítem I8 y estimá con WLSMV, pero edad mantenela como continua", "note": "(El sistema agregó índices de ajuste y umbrales. El aviso de R es solo informativo: aclara que las predictoras puras I2 e I8 se estiman de forma continua en WLSMV.)", "id": "TASK-32"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "SEM no recursivo latente: Relacional <-> Estrategico", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Bucle Recíproco"], "prompt": "Usá el archivo Base_A.xlsx. Hay valores perdidos con 7 en el ítem I2, dejalos como NA, y el ítem I8 está invertido. Definí tres factores latentes: Operativo (medido por I2, I3 e I4), Relacional (medido por I7, I8 e I9) y Estrategico (medido por I30, I33 e I37). A partir de ahí, necesito estimar un modelo no recursivo con un bucle de retroalimentación recíproco, donde haya relaciones directas entre las siguientes variables: Relacional -> Estrategico. Estrategico -> Relacional. EDAD -> Estrategico. Operativo -> Relacional", "note": "", "id": "TASK-33"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "SEM no recursivo latente en Base B", "dataset": "Base_B.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Bucle Recíproco"], "prompt": "Con Base_B.xlsx   Hay valores perdidos con 7 en el ítem I2, dejalos como NA, y el ítem I8 está invertido. Definí tres factores latentes: Operativo (medido por I2, I3 e I4), Relacional (medido por I7, I8 e I9) y Estrategico (medido por I30, I33 e I37). A partir de ahí, necesito estimar un modelo no recursivo con un bucle de retroalimentación recíproco, donde haya relaciones directas entre las siguientes variables: Relacional -> Estrategico. Estrategico -> Relacional. edad -> Estrategico. Operativo -> Relacional", "note": "", "id": "TASK-34"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "SEM no recursivo con indicadores continuos", "dataset": "Base_A.xlsx", "estimator": "MLR", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Indicadores Continuos", "Bucle Recíproco"], "prompt": "Usá el archivo Base_A.xlsx. Hay valores perdidos con 7 en el ítem I2, dejalos como NA, y el ítem I8 está invertido. Considera todos los indicadores como continuos. Definí tres factores latentes: Operativo (medido por I2, I3 e I4), Relacional (medido por I7, I8 e I9) y Estrategico (medido por I30, I33 e I37). A partir de ahí, necesito estimar un modelo no recursivo con un bucle de retroalimentación recíproco, donde haya relaciones directas entre las siguientes variables: Relacional -> Estrategico. Estrategico -> Relacional. EDAD -> Estrategico. Operativo -> Relacional", "note": "", "id": "TASK-35"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "SEM no recursivo con bucle Relacional <-> EDAD", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Bucle Recíproco"], "prompt": "Usá el archivo Base_A.xlsx. Hay valores perdidos con 7 en el ítem I2, dejalos como NA, y el ítem I8 está invertido. Definí tres factores latentes: Operativo (medido por I2, I3 e I4), Relacional (medido por I7, I8 e I9) y Estrategico (medido por I30, I33 e I37). A partir de ahí, necesito estimar un modelo no recursivo: Relacional -> EDAD. EDAD -> Relacional. Estratégico -> EDAD. Operativo -> Relacional.", "note": "", "id": "TASK-36"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "SEM No Recursivo latente con variables instrumentales (MLR FIML Bollen 1989)", "dataset": "Base_A.xlsx", "estimator": "MLR", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Indicadores Continuos", "Faltantes FIML", "Bucle Recíproco", "Variables Instrumentales"], "prompt": "Con los datos de Base_A.xlsx (hoja RESPUESTAS), estimá un modelo de ecuaciones estructurales no recursivo con un bucle de retroalimentación recíproco entre factores latentes. Considerá todos los indicadores como continuos y utilizá el estimador MLR con información completa (fiml).\nPreprocesamiento: Recodificá los valores 7 como NA en I2 e I24, e invertí la polaridad del ítem I8.\nDefiní cuatro constructos latentes:\n- Operativo: medido por I2, I3 e I4.\n- Relacional: medido por I7, I8 e I9.\n- Liderazgo: medido por I22, I23 e I24.\n- Estrategico: medido por I30, I33 e I37.\nEspecificá un bucle recíproco de feedback entre Relacional y Liderazgo con variables instrumentales para garantizar la condición de orden y rango de identificación (Bollen, 1989):\nRelacional -> Liderazgo\nLiderazgo -> Relacional\nOperativo -> Relacional\nEstrategico -> Liderazgo\nEDAD -> Relacional\nQuiero ver los índices de ajuste global (CFI, TLI, RMSEA, SRMR), las cargas factoriales estandarizadas, los coeficientes estructurales estandarizados de los senderos recíprocos y de los instrumentos, junto con sus errores estándar robustos y p-valores.", "note": "", "id": "TASK-37"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "SEM No Recursivo latente con bucle instrumentado (WLSMV)", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Filtro Género (1/2)", "EDAD Continua", "Bucle Recíproco"], "prompt": "Trabajando con Base_A.xlsx en la hoja RESPUESTAS, estimá un modelo SEM No Recursivo con bucle de retroalimentación recíproco bajo estimador WLSMV.\nPreprocesamiento e higiene de datos:\n- En los ítems I2 e I24 recodificá los valores 7 como NA.\n- Invertí la polaridad del ítem I8 (fórmula canónica).\n- En GENERO conservá únicamente las categorías 1 y 2 (las demás pasan a NA).\n- La variable EDAD es continua y debe excluirse del vector de variables ordenadas (ordered). Todos los demás ítems se tratan como ordinales.\nEstructura de medición (factores latentes de primer orden):\n- Operativo medido por I2, I3 e I4.\n- Relacional medido por I7, I8 e I9.\n- Liderazgo medido por I22, I23 e I24.\nEstructura de senderos no recursiva (Feedback Loop instrumentado):\n- Relacional -> Liderazgo.\n- Liderazgo -> Relacional.\n- Operativo -> Relacional.\n- EDAD -> Liderazgo.\n- GENERO -> Operativo.\nQuiero ver los índices de ajuste global (CFI, TLI, RMSEA, SRMR), las cargas factoriales estandarizadas, los coeficientes estandarizados del bucle recíproco y de los instrumentos con sus errores estándar y p-valores.", "note": "", "id": "TASK-38"}, {"arch_num": "6", "archetype": "6. SEM / No Recursivo", "title": "SEM No Recursivo con bucle instrumentado, WLSMV y listwise", "dataset": "Base_A.xlsx", "estimator": "WLSMV", "is_structured": true, "tags": ["Inversión I8", "Recodificar NA = 7", "Filtro Género (1/2)", "I37 Continuo", "EDAD Continua", "Faltantes Listwise", "Bucle Recíproco"], "prompt": "Qué más, Charly. Oye, estoy sacando uno de los modelos pesados de mi tesis de maestría con el archivo Base_A.xlsx (hoja RESPUESTAS) y necesito que me corras un modelo SEM no recursivo con bucle de retroalimentación recíproco usando el estimador WLSMV y manejo de faltantes listwise. Antes de correrlo, pilas con la limpieza: en I2 e I24 recodifica los valores 7 como NA, invierte la escala del ítem I8, y en GENERO deja únicamente las categorías 1 y 2 pasando los valores 3 y 4 a NA. Trabaja con cuatro factores de primer orden: Operativo (I2, I3, I4), Relacional (I7, I8, I9), Liderazgo (I22, I23, I24) y Estrategico (I30, I33, I37). Ojo con las escalas: trata el ítem I37 como continuo y deja EDAD como variable continua por fuera del vector de variables ordenadas; todos los demás ítems I van como ordinales. Especifica estas relaciones directas sin mediaciones: Relacional -> Liderazgo. Liderazgo -> Relacional. Operativo -> Relacional. Estrategico -> Liderazgo. EDAD -> Relacional. GENERO -> Operativo. Bótame los índices de ajuste global, las cargas factoriales estandarizadas y los coeficientes estructurales estandarizados del bucle y de los instrumentos con sus errores estándar y p-valores.", "note": "", "id": "TASK-39"}, {"arch_num": "7", "archetype": "7. ACP (Componentes Principales)", "title": "Análisis de Componentes Principales (Kaiser > 1, Varimax)", "dataset": "Base_A.xlsx", "estimator": "PCA (Pearson)", "is_structured": false, "tags": ["Inversión I8", "Recodificar NA = 7", "Rotación Varimax"], "prompt": "Agarrá los ítems I2, I3, I4, I7, I8, I9, I22, I23 y I24 de Base_A.xlsx (RESPUESTAS). Invertí I8 y recodificá los 7 como NA en I2 y I24. Haceme un Análisis de Componentes Principales (ACP) pidiendo retener los componentes con autovalores mayores a 1 y usá rotación Varimax.", "note": "", "id": "TASK-40"}, {"arch_num": "8", "archetype": "8. AFE (Factorial Exploratorio)", "title": "AFE para dos factores hipotéticos (Minres, Oblimin)", "dataset": "Base_A.xlsx", "estimator": "Minres/WLS", "is_structured": false, "tags": ["Recodificar NA = 7", "Criterio de Kaiser", "Rotación Oblimin", "Extracción Minres"], "prompt": "Usando Base_A.xlsx (RESPUESTAS), hacé un Análisis Factorial Exploratorio (AFE) para los ítems de Estratégico (I30, I33, I37) y Liderazgo (I22, I23, I24). Recodificá I24 (7=NA). Usá el estimador Minres/WLS, pedí la extracción por criterio de Kaiser y metele una rotación Oblimin.", "note": "", "id": "TASK-41"}, {"arch_num": "8", "archetype": "8. AFE (Factorial Exploratorio)", "title": "AFE conjunto de 6 reactivos (Minres, Kaiser, Oblimin)", "dataset": "Base_A.xlsx", "estimator": "Minres/WLS", "is_structured": false, "tags": ["Recodificar NA = 7", "Criterio de Kaiser", "Rotación Oblimin", "Extracción Minres"], "prompt": "Usando Base_A.xlsx (RESPUESTAS), hacé un Análisis Factorial Exploratorio (AFE) para los ítems I30, I33, I37, I22, I23 y I24). Recodificá I24 (7=NA). Usá el estimador Minres/WLS, pedí la extracción por criterio de Kaiser y metele una rotación Oblimin", "note": "", "id": "TASK-42"}, {"arch_num": "9", "archetype": "9. Regresión Logística", "title": "Regresión Logística Binaria (GENERO ~ EDAD + Ítems)", "dataset": "Base_A.xlsx", "estimator": "ML (Logit)", "is_structured": false, "tags": ["Filtro Género (1/2)", "Odds Ratios", "Regresión Binaria"], "prompt": "Con los datos de Base_A.xlsx (RESPUESTAS), corré una regresión logística binaria. Usá GENERO como variable dependiente y como predictores usá EDAD, I22, I23 e I24. Mostrame los Odds Ratios. Los valores 3 y 4 de GENERO son NA.", "note": "", "id": "TASK-43"}, {"arch_num": "9", "archetype": "9. Regresión Logística", "title": "Regresión Logística Ordinal (I22 ~ EDAD + GENERO + Ítems)", "dataset": "Base_A.xlsx", "estimator": "ML (Logit)", "is_structured": false, "tags": ["Filtro Género (1/2)", "Odds Ratios", "Regresión Ordinal"], "prompt": "Con los datos de Base_A.xlsx (RESPUESTAS), corré una regresión logística ordinal. Usá I22 como variable dependiente y como predictores EDAD, GENERO, I23 e I24. Mostrame los Odds Ratios. Los valores 3 y 4 de GENERO son NA", "note": "", "id": "TASK-44"}, {"arch_num": "9", "archetype": "9. Regresión Logística", "title": "Regresión Logística Binaria en Base B", "dataset": "Base_B.xlsx", "estimator": "ML (Logit)", "is_structured": false, "tags": ["Filtro Género (1/2)", "Odds Ratios", "Regresión Binaria"], "prompt": "Con Base_B.xlsx, corré una regresión logística binaria. Usá GENERO como variable dependiente y como predictores usá EDAD, I22, I23 e I24. Mostrame los Odds Ratios. Los valores 3 y 4 de GENERO son NA", "note": "", "id": "TASK-45"}, {"arch_num": "10", "archetype": "10. Regresión Probit", "title": "Regresión Probit Binaria (GENERO ~ EDAD + I30)", "dataset": "Base_A.xlsx", "estimator": "ML (Probit)", "is_structured": false, "tags": ["Filtro Género (1/2)", "Regresión Binaria"], "prompt": "En Base_A.xlsx (RESPUESTAS), estimá un modelo de regresión Probit. Usá GENERO como variable dependiente dicotómica. Los valores 3 y 4 de GENERO tomalos como NA. Los predictores van a ser la EDAD y el item I30. Mostrame los coeficientes del modelo.", "note": "", "id": "TASK-46"}, {"arch_num": "10", "archetype": "10. Regresión Probit", "title": "Regresión Probit Ordinal (I30 ~ EDAD + GENERO)", "dataset": "Base_A.xlsx", "estimator": "ML (Probit)", "is_structured": false, "tags": ["Filtro Género (1/2)", "Regresión Ordinal"], "prompt": "En Base_A.xlsx (RESPUESTAS), estimá un modelo de regresión Probit ordinal. Usá I30 como variable dependiente. Los valores 3 y 4 de GENERO tomalos como NA. Los predictores van a ser la EDAD y el GENERO. Mostrame los coeficientes del modelo.", "note": "", "id": "TASK-47"}];
+
+    let activeArch = 'all';
+    let activeDataset = 'all';
+    let searchQuery = '';
+
+    const tasksGrid = document.getElementById('tasksGrid');
+    const searchInput = document.getElementById('searchInput');
+    const datasetSelect = document.getElementById('datasetSelect');
+    const pillsContainer = document.getElementById('pillsContainer');
+    const resultsCount = document.getElementById('resultsCount');
+
+    function renderTasks() {
+      const q = searchQuery.toLowerCase().trim();
+      
+      const filtered = TASKS.filter(t => {
+        if (activeArch !== 'all' && t.archetype !== activeArch) return false;
+        if (activeDataset !== 'all' && t.dataset !== activeDataset) return false;
+        if (q) {
+          const matchTitle = t.title.toLowerCase().includes(q);
+          const matchPrompt = t.prompt.toLowerCase().includes(q);
+          const matchArch = t.archetype.toLowerCase().includes(q);
+          const matchTags = t.tags.some(tag => tag.toLowerCase().includes(q));
+          const matchEst = t.estimator.toLowerCase().includes(q);
+          const matchId = t.id.toLowerCase().includes(q);
+          if (!matchTitle && !matchPrompt && !matchArch && !matchTags && !matchEst && !matchId) return false;
+        }
+        return true;
+      });
+
+      resultsCount.textContent = `Mostrando ${filtered.length} de ${TASKS.length} consignas`;
+
+      if (filtered.length === 0) {
+        tasksGrid.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-muted);">No se encontraron consignas que coincidan con la búsqueda.</div>';
+        return;
+      }
+
+      tasksGrid.innerHTML = filtered.map(t => {
+        const tagsHtml = t.tags.map(tag => `<span class="tag-item">🏷️ ${tag}</span>`).join('');
+        const noteHtml = t.note ? `<div class="task-note">ℹ️ ${t.note}</div>` : '';
+        return `
+          <div class="task-card" id="${t.id}">
+            <div class="task-header">
+              <div class="task-id-title">
+                <span class="task-id">${t.id}</span>
+                <span class="task-arch">${t.archetype}</span>
+              </div>
+              <div class="task-badges">
+                <span class="badge-db">📊 ${t.dataset}</span>
+                <span class="badge-est">⚙️ ${t.estimator}</span>
+              </div>
+            </div>
+            <div class="task-title">${t.title}</div>
+            <div class="tags-list">${tagsHtml}</div>
+            <div class="prompt-box">
+              <button class="btn-copy" onclick="copyPrompt('${t.id}')" title="Copiar consigna para pegar en Charly App">📋 Copiar</button>
+              <div id="prompt-${t.id}">${escapeHtml(t.prompt)}</div>
+            </div>
+            ${noteHtml}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+    }
+
+    function copyPrompt(id) {
+      const el = document.getElementById('prompt-' + id);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = el.parentElement.querySelector('.btn-copy');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ ¡Copiado!';
+        btn.style.background = '#2EA043';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+        }, 1800);
+      }).catch(err => {
+        alert('No se pudo copiar automáticamente. Por favor seleccioná el texto manualmente.');
+      });
+    }
+
+    searchInput.addEventListener('input', e => {
+      searchQuery = e.target.value;
+      renderTasks();
+    });
+
+    datasetSelect.addEventListener('change', e => {
+      activeDataset = e.target.value;
+      renderTasks();
+    });
+
+    pillsContainer.addEventListener('click', e => {
+      const pill = e.target.closest('.pill');
+      if (!pill) return;
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeArch = pill.dataset.arch;
+      renderTasks();
+    });
+
+    renderTasks();
+  </script>
+</body>
+</html>
