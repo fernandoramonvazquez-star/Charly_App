@@ -1,0 +1,70 @@
+================================================================================
+MEMO / RECORDATORIO PARA EL DOCENTE: CHARLY APP (DISTRIBUCIÓN Y ENTORNO)
+================================================================================
+Fecha de creación: Noviembre 2026
+Autor: Prof. Fernando Ramón Vázquez (fernandoramon.vazquez@gmail.com)
+Usuario GitHub: fernandoramonvazquez-star
+Licencia: MIT (Libre, abierta, académica, sin costo ni llaves de licencia)
+
+--------------------------------------------------------------------------------
+1. QUÉ ENVIARLE A LOS ALUMNOS
+--------------------------------------------------------------------------------
+Para que los alumnos descarguen e instalen Charly App en sus computadoras personales
+(incluso si son PCs 100% limpias que nunca tuvieron Python ni R), enviarles este texto:
+
+--------------------------------------------------------------------------------
+[TEXTO PARA COPIAR Y PEGAR A LOS ALUMNOS]:
+
+Estimados/as estudiantes,
+
+Para las clases prácticas de psicometría y modelos de ecuaciones estructurales (SEM), 
+les comparto el instalador oficial de Charly App v4.0:
+
+📥 Enlace de descarga directa del instalador (3.3 MB):
+https://github.com/fernandoramonvazquez-star/Charly_App/releases/download/v4.0.0/Instalador_Charly_App.exe
+
+Instrucciones de instalación (en 3 pasos):
+1. Descarguen el archivo y hagan doble clic sobre "Instalador_Charly_App.exe".
+2. Hagan clic en "Siguiente" e "Instalar" (no requiere permisos de administrador).
+3. Si su computadora no tiene Python o R instalados, la ventana les preguntará si desean 
+   descargarlos automáticamente: solo presionen la tecla [Enter] para aceptar.
+4. Al terminar, les quedará el ícono de "Charly App" (con el mate de Peperina) en su 
+   Escritorio listo para usar.
+
+Documentación y catálogo de consignas:
+https://github.com/fernandoramonvazquez-star/Charly_App
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+2. QUÉ HACE EL INSTALADOR AUTOMÁTICAMENTE EN LA MÁQUINA DEL ALUMNO
+--------------------------------------------------------------------------------
+El instalador está diseñado para que el alumno no tenga que configurar nada técnico:
+• Python: Si la PC no lo tiene, descarga e instala Python 3.12 oficial con "Add to PATH".
+• R (CRAN): Si la PC no lo tiene, descarga e instala R oficial para Windows en segundo plano.
+• Librerías de R: Pregunta si desea preinstalar lavaan, psych, MASS, semTools, readxl, etc.
+• Librerías de Charly: Instala PySide6 y python-docx con barra de progreso interactiva.
+• Bases de datos incluidas: La carpeta ya viene con Base_A.xlsx (con hoja única RESPUESTAS),
+  Base_B.xlsx, Base_C.xlsx y su archivo explicativo LEEME_BASES.txt. No necesitan descargar nada extra.
+• Catálogo: Incluye 47 consignas metodológicas calibradas en Catalogo_Consignas_Charly.html.
+
+--------------------------------------------------------------------------------
+3. ENLACES CLAVE DEL PROYECTO
+--------------------------------------------------------------------------------
+• Repositorio público en GitHub:
+  https://github.com/fernandoramonvazquez-star/Charly_App
+
+• Página de Releases / Versiones:
+  https://github.com/fernandoramonvazquez-star/Charly_App/releases/latest
+
+• Descarga directa del instalador (.exe):
+  https://github.com/fernandoramonvazquez-star/Charly_App/releases/download/v4.0.0/Instalador_Charly_App.exe
+
+--------------------------------------------------------------------------------
+4. CÓMO ACTUALIZAR EL PROGRAMA EN EL FUTURO (DESDE TU COMPUTADORA)
+--------------------------------------------------------------------------------
+Si en el futuro haces modificaciones en la carpeta Charly_App de tu máquina:
+1. En tu Escritorio tienes el archivo: "Subir_Charly_a_GitHub.bat"
+2. Le haces doble clic y el script subirá los cambios al repositorio de GitHub al instante.
+3. Para generar un nuevo instalador .exe con las novedades, simplemente compilas con Inno Setup
+   usando el archivo "setup_charly_app.iss" que ya está configurado dentro de la carpeta.
+================================================================================
